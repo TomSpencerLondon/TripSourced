@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: [:show, :edit, :update, :destroy]
+  before_action :set_list, only: [:show, :edit, :update, :destroy, :move]
 
   # GET /lists
   # GET /lists.json
@@ -61,6 +61,10 @@ class ListsController < ApplicationController
     end
   end
 
+  def move 
+    @list.insert_at(list_params[:position].to_i)
+    render action: :show
+  end 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_list
