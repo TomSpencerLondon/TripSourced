@@ -3,21 +3,21 @@
   <h6>{{ list.name }}</h6>
   <hr />
   <draggable v-model="list.cards" :options="{group: 'cards'}" class="dragArea" @change="cardMoved">
-    <div v-for="(card, index) in list.cards" class="card card-body mb-3">
-      {{ card.name }}
-    </div>
+    <card v-for="card in list.cards" :card="card"></card>
   </draggable>
-  <a v-if="!editing" v-on:click="editing-true" >Add a card</a>
-  <textarea v-if="editing" v-model="message" class="form-control mb-1"></textarea>
+  <a v-if="!editing" v-on:click="startEditing">Add a card</a>
+  <textarea v-if="editing" ref="message" class="form-control mb-1"></textarea>
   <button v-if="editing" v-on:click="submitMessage"  class="btn btn-secondary">Add</button>
+  <a v-if="editing" v-on:click="editing=false">Cancel</a>
 </div>
 </template>
  
  <script>
 import draggable from 'vuedraggable'
+import card from 'components/card'
 
 export default {
-  components: { draggable },
+  components: { card, draggable },
   props: ["list"],
 
   data: function() {
@@ -27,10 +27,13 @@ export default {
     }
   }, 
   methods: {
-
+    startEditing: function(){
+      this.editing = true
+      this.$nextTick(() => { this.$refs.message.focus() })
+    },
     cardMoved: function(event){
       if(evt == undefined){ return }
-      const evt = event.added || event.moved
+
       const element = evt.element 
       const list_index = window.store.lists.findIndex((list) => {
         list.cards.find((card) => {
@@ -64,6 +67,7 @@ export default {
           const index = window.store.lists.findIndex(item => item.id == this.list.id)
           window.store.lists[index].cards.push(data)
           this.message = ""
+          this.$nextTick(() => { this.$refs.message.focus() })
         }
       }) 
     }
