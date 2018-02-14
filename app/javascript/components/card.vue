@@ -38,8 +38,10 @@
     }, 
 
     methods: {
-      closeModal: function(){
-
+      closeModal: function(event){
+        if (event.target.classList.contains("modal")) {
+          this.editing = false
+        }
       }, 
       save: function(){
 
