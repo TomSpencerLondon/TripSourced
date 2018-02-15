@@ -3,7 +3,7 @@
   <h6>{{ list.name }}</h6>
   <hr />
   <draggable v-model="list.cards" :options="{group: 'cards'}" class="dragArea" @change="cardMoved">
-    <card v-for="card in list.cards" :card="card"></card>
+    <card v-for="card in list.cards" :key="card.id" :card="card" :list="list"></card>
   </draggable>
   <a v-if="!editing" v-on:click="startEditing">Add a card</a>
   <textarea v-if="editing" ref="message" class="form-control mb-1"></textarea>
@@ -32,17 +32,18 @@ export default {
       this.$nextTick(() => { this.$refs.message.focus() })
     },
     cardMoved: function(event){
-      if(evt == undefined){ return }
+      if (evt == undefined){ return }
+      const evt = event.added || event.moved
 
       const element = evt.element 
-      const list_index = window.store.lists.findIndex((list) => {
-        list.cards.find((card) => {
+      const list_index = window.store.state.lists.findIndex((list) => {
+        return list.cards.find((card) => {
           return card.id === element.id 
         }) 
       })
 
       var data = new FormData
-      data.append("card[list_id]", window.store.lists[list_index].id)
+      data.append("card[list_id]", window.store.state.lists[list_index].id)
       data.append("card[position]", evt.newIndex + 1) 
 
       Rails.ajax({
@@ -80,16 +81,6 @@ export default {
 
 .dragArea {
   min-height: 10px; 
-}
-
- .list {
-  background: #E2E4E6;
-  border-radius: 3px; 
-  display: inline-block;
-  margin-right: 20px; 
-  padding: 10px; 
-  vertical-align: top;  
-  width: 270px; 
 }
 
  </style>

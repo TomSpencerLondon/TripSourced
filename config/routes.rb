@@ -13,5 +13,5 @@ Rails.application.routes.draw do
     end 
   end 
 
-  root to: 'lists#index'
+  root :to => 'lists#index'
 end
