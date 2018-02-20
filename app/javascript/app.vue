@@ -58,7 +58,6 @@ export default {
         data: data, 
         dataType: "json", 
         success: (data) => {
-          this.$store.commit('addList', data)
           this.message = ""
           this.editing = false
         }

@@ -7,3 +7,5 @@ App.board = App.cable.subscriptions.create "BoardChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    if data.commit
+      window.store.commit(data.commit, JSON.parse(data.payload))
