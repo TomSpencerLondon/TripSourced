@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 20180219153559) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "cards", force: :cascade do |t|
-    t.integer "list_id"
+    t.bigint "list_id"
     t.string "name"
     t.integer "position"
     t.datetime "created_at", null: false
@@ -52,4 +55,5 @@ ActiveRecord::Schema.define(version: 20180219153559) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cards", "lists"
 end
