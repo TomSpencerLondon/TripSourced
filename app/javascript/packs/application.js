@@ -20,6 +20,10 @@ window.store = new Vuex.Store({
     addList(state, data){
       state.lists.push(data)
     }, 
+    deleteList(state, data){
+      const list_index = state.lists.findIndex((item) => item.id === data.list_id)      
+      state.lists.splice(list_index, 1)
+    },
     addCard(state, data){
       const index = state.lists.findIndex(item => item.id === data.list_id)
       state.lists[index].cards.push(data)
@@ -29,6 +33,11 @@ window.store = new Vuex.Store({
       const card_index = state.lists[list_index].cards.findIndex((item) => item.id === data.id)
       state.lists[list_index].cards.splice(card_index, 1, data)
     }, 
+    deleteCard(state, data){
+      const list_index = state.lists.findIndex((item) => item.id === data.list_id)
+      const card_index = state.lists[list_index].cards.findIndex((item) => item.id === data.id)
+      state.lists[list_index].cards.splice(card_index, 1);
+    }
   }
 })
 

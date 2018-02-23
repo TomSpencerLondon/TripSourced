@@ -1,6 +1,9 @@
 <template>
   <div class="list">
+    <button id="deleteButton" @click="deleteList" type="button" class="btn btn-danger btn-sm">X</button>
+
     <h6>{{ list.name }}</h6>
+
 
     <draggable v-model="list.cards" :options="{group: 'cards'}" class="dragArea" @change="cardMoved">
       <card v-for="card in list.cards" :card="card" :list="list"></card>
@@ -16,6 +19,7 @@
 <script>
 import draggable from 'vuedraggable'
 import card from 'components/card'
+import list from 'components/list'
 
 
 export default { 
@@ -64,7 +68,6 @@ export default {
       var data = new FormData 
       data.append("card[list_id]", this.list.id)
       data.append("card[name]", this.message)
-
       Rails.ajax({
         url: "/cards", 
         type: "POST", 
@@ -75,7 +78,24 @@ export default {
           this.$nextTick(() => { this.$refs.message.focus() })
         }
       }) 
+    }, 
+
+    deleteList: function() {
+      var data = new FormData
+      data.delete("list[name]", this.message)
+      console.log(this.list); 
+
+      Rails.ajax({
+        url: `/lists/${this.list.id}`, 
+        type: "DELETE", 
+        data: data, 
+        dataType: "json", 
+        success: (data) => { 
+          this.editing = false
+        }
+      })
     }
+
   }
 }
 </script>
@@ -86,5 +106,9 @@ export default {
   min-height: 20px; 
 }
 
+#deleteButton {
+  position: relative;
+  float: right;
 
+}
 </style>
