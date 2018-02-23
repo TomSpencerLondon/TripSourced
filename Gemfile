@@ -59,4 +59,7 @@ gem 'acts_as_list'
 gem 'jquery-rails'
 gem 'rails-assets-tether'
 gem 'webpacker', github: 'rails/webpacker'
+<<<<<<< HEAD
 gem 'pry-byebug'
+=======
+>>>>>>> new_master

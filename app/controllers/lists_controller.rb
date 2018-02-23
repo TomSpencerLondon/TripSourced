@@ -28,6 +28,8 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
+
+        ActionCable.server.broadcast "board", { commit: 'addList', payload: render_to_string(:show, format: :json) } 
         format.html { redirect_to @list, notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @list }
       else
@@ -56,6 +58,10 @@ class ListsController < ApplicationController
   def destroy
     @list.destroy
     respond_to do |format|
+      ActionCable.server.broadcast "board", { commit: 'deleteList', payload: JSON({ list_id: @list.id }) } 
+      format.html { redirect_to @list, notice: 'List was successfully deleted.' }
+      format.json { render :show, status: :ok, location: @list }
+      
       format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
     end

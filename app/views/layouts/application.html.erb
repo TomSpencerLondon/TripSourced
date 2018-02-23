@@ -13,15 +13,32 @@
   <body>
   
   <div class="col-md-12"> 
-  <div class="navbar">
+  <div class="navbar heading_picture">
     <div class="text-danger pull-left d-flex align-items-left py-5 px-6">
       <%= image_tag("logos/trip_source_logo.png")%>
       <h4 class="text-left" style="text-align: left"><strong>Trip Sourced</strong></h4>
     </div>
   </div>
-    
+  </div>
+
+  <div class="container">
+  <ul class="nav justify-content-end">
+    <% if user_signed_in? %>
+    <li><%= link_to current_user.email, edit_user_registration_path, :class => "btn" %></li>
+    <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn" %></li>
+      <% else %>
+      <li>
+      <%= link_to "Sign Up", new_user_registration_path, :class => "btn" %>
+      </li>
+      <li>
+        <%= link_to "Login", new_user_session_path, :class => "btn" %>
+      </li>
+      <% end %>
+  </ul>
   </div>
     <div class="container-fluid">
+      <% if notice %><div class="alert alert-info"><%= notice %></div><% end %>
+      <% if alert %> <div class="alert alert-info"><%= alert %></div><% end %>
       <%= yield %>
     </div>
   </body>

@@ -1,6 +1,6 @@
 <template>
   <draggable v-model="lists" :options="{group: lists}" class="board dragArea" @end="listMoved">
-      <list v-for="(list, index) in lists" :list="list"></list>
+    <list v-for="(list, index) in lists" :list="list"></list>
 
   <div class="list">
     <a v-if="!editing" v-on:click="startEditing">Add a List</a>
@@ -18,21 +18,25 @@ import list from 'components/list'
 export default {
   components: { draggable, list },
 
-  props: ["original_lists"],
-
   data: function() {
     return {
-      lists: this.original_lists,
       editing: false, 
       message: "",
     }
   }, 
 
+  computed: {
+    lists() {
+      return this.$store.state.lists;
+    }
+  },
+
   methods: {
-    startEditing: function(){
-      this.editing = true
-      this.$nextTick(() => { this.$refs.message.focus() })
-    },
+    startEditing: function() {
+    this.editing = true
+    this.$nextTick(() => { this.$refs.message.focus() })
+
+  },
     listMoved: function(event){
       var data = new FormData
       data.append("list[position]", event.newIndex + 1) 
@@ -54,7 +58,6 @@ export default {
         data: data, 
         dataType: "json", 
         success: (data) => {
-          window.store.lists.push(data)
           this.message = ""
           this.editing = false
         }
@@ -71,16 +74,15 @@ export default {
 
 .board {
   white-space: nowrap;
-  overflow-x: auto;  
-
+  overflow-x: auto; 
 }
 
- .list {
-  background: #E2E4E6;
+.list {
   border-radius: 3px; 
+  background: #E2E4E6;
   display: inline-block;
   margin-right: 20px; 
-  padding: 10px; 
+  padding: 10px;
   vertical-align: top;  
   width: 270px; 
 }
