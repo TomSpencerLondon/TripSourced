@@ -1,25 +1,23 @@
-# README
+# Tripsourced Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A trello board style holiday organiser for Tripsourced using Action Cable, Webpacker, Vue.js and Rails. 
 
-Things you may want to cover:
+## How to use
+You can go to https://fierce-citadel-13390.herokuapp.com/
 
-* Ruby version
+Or you can run locally: 
 
-* System dependencies
+```
+$ bundle install
+$ cd trello
+$ bin/rails s 
+$ bin/webpacker-dev-server (in separate tab on terminal)
+```
 
-* Configuration
+And point your browser to `http://localhost:3000`. 
 
-* Database creation
+## Features
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# TripSourced
+- Users can add you own lists and cards
+- Users can edit cards
+- Cards and Lists are updated across multiple browsers
