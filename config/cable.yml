@@ -1,10 +1,16 @@
 development:
-  adapter: async
+  adapter: redis
+  url: redis://127.0.0.1:6379/0
 
 test:
   adapter: async
+  url: redis://127.0.0.1:6379/0
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
-  channel_prefix: trello_production
+  url: <%= ENV["REDIS_URL"] %>
+
+staging:
+  adapter: redis
+  url: redis://h:p9efi6kg2karqt45d50rpn71bu7@ec2-54-83-192-18.compute-1.amazonaws.com:8329
+  
