@@ -43,7 +43,7 @@ export default {
 
       Rails.ajax({
         url: `/cards/${this.card.id}`, 
-        type: "PATCH", 
+        type: "PUT", 
         data: data, 
         dataType: "json", 
         success: (data) => {
